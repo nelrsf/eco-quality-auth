@@ -1,20 +1,18 @@
 const express = require("express");
 const router = express.Router();
+const MongoClient = require("mongoclient");
 const axios = require("axios");
 const dotenv = require("dotenv");
 const { generatePassword, createHash, validateHash } = require("./password");
 const sendSignUpEmail = require("../email/email");
 const jwt = require("jsonwebtoken");
 const jwtGuard = require("../guards/jwtGuard");
+const findUser = require("../middlewares/findUser");
 dotenv.config();
 
-router.post("/login", async (req, res) => {
+router.post("/login", findUser , async (req, res) => {
   const body = req.body;
-  const user = await getUser(body.Email);
-  if (!user) {
-    res.status(401).send("Usuario no encontrado");
-    return;
-  }
+  const user = body.user;
   const hashValidation = await validateHash(
     body.password + user.salt,
     user.password
@@ -38,6 +36,9 @@ router.post("/validate", jwtGuard, (req, res)=>{
 
 async function getUser(email) {
   return new Promise((resolve, reject) => {
+
+    const client = MongoClient();
+    
     const module = "/Administración";
     const table = "/Usuarios";
     const requestUrl =
