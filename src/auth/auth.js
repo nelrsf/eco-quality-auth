@@ -25,8 +25,8 @@ router.post("/recoverypassword", findUser, (req, res) => {
   const email = req.body.Email;
   const timeStamp = req.body.timeStamp;
   const code = generateRecoveryCode(email, timeStamp);
-  const serverUrl = `${process.env.API_PROTOCOL_STRING}://${req.get("host")}/`;
-  sendRecoveryPasswordEmail(code, email, serverUrl)
+  const originUrl = `${req.headers.origin}/`;
+  sendRecoveryPasswordEmail(code, email, originUrl)
     .then((_result) => {
       res.status(200).json(_result);
     })
