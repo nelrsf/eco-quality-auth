@@ -62,7 +62,7 @@ function sendRecoveryPasswordEmail(code, email, origin) {
       from: "nel.rsf@gmail.com",
       to: email,
       subject: "Solicitud cambio de contraseña ECO-QUALITY",
-      html: `Se ha solicitado recuperar la contraseña de la cuenta ${email}, si usted no ha hecho este cambio, por favor comuníquese al correo nel.rsf@gmail.com<br><br>Para recuperar la contraseña haga clic en el siguiente enlace:<br>${origin}${encodedParam} <br>Este enlace de recuperación tiene un tiempo de validez de 5 minutos`,
+      html: `Se ha solicitado recuperar la contraseña de la cuenta ${email}, si usted no ha hecho este cambio, por favor comuníquese al correo nel.rsf@gmail.com<br><br>Para recuperar la contraseña haga clic en el siguiente enlace:<br>${origin}/auth/recovery/${encodedParam} <br>Este enlace de recuperación tiene un tiempo de validez de 5 minutos`,
     };
     // Enviar el mensaje
     transporter.sendMail(message, function (err, info) {
