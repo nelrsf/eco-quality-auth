@@ -22,8 +22,8 @@ function storeRecoveryCode(code, email) {
       // Connect to the MongoDB cluster
       await client.connect();
 
-      const module = "Administración";
-      const table = "Usuarios";
+      const module = process.env.EQ_ADMIN_DATABASE;
+      const table = process.env.EQ_ADMIN_USERS_COLLECTION;
 
       // Use the client to access the database
       const db = client.db(module);
@@ -72,8 +72,8 @@ async function storePassword(hash, salt, email) {
       // Connect to the MongoDB cluster
       await client.connect();
 
-      const module = "Administración";
-      const table = "Usuarios";
+      const module = process.env.EQ_ADMIN_DATABASE;
+      const table = process.env.EQ_ADMIN_USERS_COLLECTION;
 
       // Use the client to access the database
       const db = client.db(module);
@@ -188,7 +188,6 @@ function validatePasswordRecoveryCode(code, email){
     }
     return true;
   } catch (e) {
-    console.log(e)
     return false;
   }
 }
@@ -198,7 +197,6 @@ function validatePasswordRecoveryCode2(code){
     const decoded = CryptoJS.AES.decrypt(code, process.env.RECOVERY_CODE_KEY2).toString(CryptoJS.enc.Utf8);
     return decoded? true : false;
   } catch (e) {
-    console.log(e)
     return false;
   }
 }

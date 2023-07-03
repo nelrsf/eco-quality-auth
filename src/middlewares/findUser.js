@@ -21,8 +21,8 @@ async function findUser(req, res, next) {
 
     const email = req.body.Email;
     const column = "Email";
-    const module = "Administración";
-    const table = "Usuarios";
+    const module = process.env.EQ_ADMIN_DATABASE;
+    const table = process.env.EQ_ADMIN_USERS_COLLECTION;
 
     // Use the client to access the database
     const db = client.db(module);
