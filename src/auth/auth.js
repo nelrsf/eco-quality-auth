@@ -54,7 +54,7 @@ router.post("/login", findUser, async (req, res) => {
 
   const token = jwt.sign({ id: user._id }, process.env.SECRET_KEY);
   if (token) {
-    res.status(200).json({ token: token });
+    res.status(200).json({ token: token, email: user.Email, name: user.Nombre, _id: user._id });
   } else {
     res.status(401).json("Error de autenticación");
   }
