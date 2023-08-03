@@ -54,7 +54,13 @@ router.post("/login", findUser, async (req, res) => {
 
   const token = jwt.sign({ id: user._id }, process.env.SECRET_KEY);
   if (token) {
-    res.status(200).json({ token: token, email: user.Email, name: user.Nombre, _id: user._id });
+    res.status(200).json({
+      token: token,
+      email: user.Email,
+      name: user.Nombre,
+      _id: user._id,
+      image: user.Imagen
+    });
   } else {
     res.status(401).json("Error de autenticación");
   }
@@ -126,7 +132,11 @@ router.post("/signup", async (req, res) => {
 function userCreatedHandler(responseHandler, email, password) {
   sendSignUpEmail(email, password)
     .then((_response) => {
-      responseHandler.status(200).json(`Usuario creado correctamente, se ha enviado la contraseña al correo ${email}`);
+      responseHandler
+        .status(200)
+        .json(
+          `Usuario creado correctamente, se ha enviado la contraseña al correo ${email}`
+        );
     })
     .catch((_error) => {
       responseHandler
